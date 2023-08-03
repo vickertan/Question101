@@ -1,14 +1,9 @@
-import { useState } from "react";
+import SignUp from "./SignUp";
 
 function App() {
-  const [count, setCount] = useState(0);
+  console.log("Render app");
 
-  return (
-    <div>
-      <h1>{count}</h1>
-      <button onClick={() => setCount(count + 1)}>Counter</button>
-    </div>
-  );
+  return <SignUp />;
 }
 
 export default App;
