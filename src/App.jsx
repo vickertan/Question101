@@ -1,9 +1,10 @@
-import SignUp from "./SignUp";
+import "./style.css";
+import HomePage from "./HomePage";
 
 function App() {
   console.log("Render app");
 
-  return <SignUp />;
+  return <HomePage />;
 }
 
 export default App;
