@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
 const style = {
   position: "absolute",
@@ -16,7 +17,15 @@ const style = {
   p: 4,
 };
 
-export default function TransitionsModal({ open, handleClose }) {
+export default forwardRef(function CreateModal(props, ref) {
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+
+  useImperativeHandle(ref, () => ({
+    handleOpen: () => {
+      setOpen(true);
+    },
+  }));
   return (
     <div>
       <Modal
@@ -49,4 +58,4 @@ export default function TransitionsModal({ open, handleClose }) {
       </Modal>
     </div>
   );
-}
+});

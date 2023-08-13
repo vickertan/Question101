@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
-import TransitionsModal from "./CreateModal";
+import CreateModal from "./CreateModal";
 
 export default function MenuSelection() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const createModalRef = useRef(null);
+
+  const handleOpen = () => {
+    createModalRef.current.handleOpen();
+  };
 
   return (
     <Box
@@ -24,7 +26,7 @@ export default function MenuSelection() {
         <Button>Playground</Button>
         <Button onClick={handleOpen}>Create</Button>
       </ButtonGroup>
-      <TransitionsModal open={open} handleClose={handleClose} />
+      <CreateModal ref={createModalRef} />
     </Box>
   );
 }
