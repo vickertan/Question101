@@ -2,37 +2,60 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
-import { useState, forwardRef, useImperativeHandle } from "react";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import { useState } from "react";
 
-const style = {
+const modalStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  bgcolor: "beige",
+  border: "none",
+  borderRadius: "1rem",
   boxShadow: 24,
   p: 4,
 };
 
-export default forwardRef(function CreateModal(props, ref) {
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+const buttonStyle = {
+  m: "auto",
+};
 
-  useImperativeHandle(ref, () => ({
-    handleOpen: () => {
-      setOpen(true);
-    },
-  }));
+function ExitModal({ exitModalOpen }) {
+  return (
+    <Modal open={exitModalOpen}>
+      <Fade in={exitModalOpen}>
+        <Box sx={{ ...modalStyle, width: 200 }}>
+          <p>Unsaved data will be lost. Are you sure to proceed?</p>
+          <ButtonGroup
+            sx={{
+              display: "flex",
+            }}
+            orientation="horizontal"
+          >
+            <Button sx={buttonStyle} color="warning">
+              Yes
+            </Button>
+            <Button sx={buttonStyle}>No</Button>
+          </ButtonGroup>
+        </Box>
+      </Fade>
+    </Modal>
+  );
+}
+
+export default function CreateModal({ open, handleClose }) {
+  const [exitModalOpen, setExitModalOpen] = useState(false);
+
   return (
     <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={handleClose}
+        onClose={() => setExitModalOpen(true)}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -42,20 +65,15 @@ export default forwardRef(function CreateModal(props, ref) {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Create Field
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              {
-                "User can submit their question(s) here, and the submitted question(s) will be shared across all users."
-              }
-              {"\nContent :"}
-              {"\nCategory : "}
-            </Typography>
+          <Box sx={modalStyle}>
+            <h1>Question Creating</h1>
+            <p>Question: </p>
+            <p>Category: </p>
+            <h2>Category is set to global by default</h2>
+            <ExitModal exitModalOpen={exitModalOpen} />
           </Box>
         </Fade>
       </Modal>
     </div>
   );
-});
+}
