@@ -4,9 +4,9 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-const modalStyle = {
+const modalBoxStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -27,7 +27,7 @@ function ExitConfirm({ exitConfirmOpen, handleClose, handleCloseConfirm }) {
   return (
     <Modal open={exitConfirmOpen}>
       <Fade in={exitConfirmOpen}>
-        <Box sx={{ ...modalStyle, width: 200 }}>
+        <Box sx={{ ...modalBoxStyle, width: 200 }}>
           <p>Unsaved data will be lost. Are you sure to exit?</p>
           <ButtonGroup
             sx={{
@@ -55,11 +55,20 @@ function ExitConfirm({ exitConfirmOpen, handleClose, handleCloseConfirm }) {
   );
 }
 
-export default function CreateModal({ open, handleClose }) {
+export default forwardRef(function CreateModal(props, ref) {
+  const [open, setOpen] = useState(false);
   const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   const handleOpenConfirm = () => setExitConfirmOpen(true);
   const handleCloseConfirm = () => setExitConfirmOpen(false);
+
+  useImperativeHandle(ref, () => ({
+    handleOpen: () => {
+      setOpen(true);
+    },
+  }));
 
   return (
     <div>
@@ -77,7 +86,7 @@ export default function CreateModal({ open, handleClose }) {
         }}
       >
         <Fade in={open}>
-          <Box sx={modalStyle}>
+          <Box sx={modalBoxStyle}>
             <h1>Question Creating</h1>
             <p>Question: </p>
             <p>Category: </p>
@@ -92,4 +101,4 @@ export default function CreateModal({ open, handleClose }) {
       </Modal>
     </div>
   );
-}
+});
