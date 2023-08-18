@@ -23,22 +23,31 @@ const buttonStyle = {
   m: "auto",
 };
 
-function ExitModal({ exitModalOpen }) {
+function ExitConfirm({ exitConfirmOpen, handleClose, handleCloseConfirm }) {
   return (
-    <Modal open={exitModalOpen}>
-      <Fade in={exitModalOpen}>
+    <Modal open={exitConfirmOpen}>
+      <Fade in={exitConfirmOpen}>
         <Box sx={{ ...modalStyle, width: 200 }}>
-          <p>Unsaved data will be lost. Are you sure to proceed?</p>
+          <p>Unsaved data will be lost. Are you sure to exit?</p>
           <ButtonGroup
             sx={{
               display: "flex",
             }}
             orientation="horizontal"
           >
-            <Button sx={buttonStyle} color="warning">
+            <Button
+              sx={buttonStyle}
+              color="warning"
+              onClick={() => {
+                handleClose();
+                handleCloseConfirm();
+              }}
+            >
               Yes
             </Button>
-            <Button sx={buttonStyle}>No</Button>
+            <Button sx={buttonStyle} onClick={handleCloseConfirm}>
+              No
+            </Button>
           </ButtonGroup>
         </Box>
       </Fade>
@@ -47,7 +56,10 @@ function ExitModal({ exitModalOpen }) {
 }
 
 export default function CreateModal({ open, handleClose }) {
-  const [exitModalOpen, setExitModalOpen] = useState(false);
+  const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
+
+  const handleOpenConfirm = () => setExitConfirmOpen(true);
+  const handleCloseConfirm = () => setExitConfirmOpen(false);
 
   return (
     <div>
@@ -55,7 +67,7 @@ export default function CreateModal({ open, handleClose }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={() => setExitModalOpen(true)}
+        onClose={handleOpenConfirm}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -70,7 +82,11 @@ export default function CreateModal({ open, handleClose }) {
             <p>Question: </p>
             <p>Category: </p>
             <h2>Category is set to global by default</h2>
-            <ExitModal exitModalOpen={exitModalOpen} />
+            <ExitConfirm
+              exitConfirmOpen={exitConfirmOpen}
+              handleCloseConfirm={handleCloseConfirm}
+              handleClose={handleClose}
+            />
           </Box>
         </Fade>
       </Modal>
