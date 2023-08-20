@@ -1,9 +1,17 @@
 # To Do List
 
 - [x] Create Question Creating box (CreateModal) form in another component
+
   - [x] Add input for:
     - [x] Question
     - [x] Category
+      - [x] Deep Thought
+      - [x] Romance
+      - [x] Food
+      - [x] Fun
+      - [x] This or that
+      - [x] Global
+
 - [x] Fix "Yes" border not rendering
 - [x] Create component's style on separated file
 - [x] Add X button to the top right corner to exit modal, prevent exiting modal on outside-modal click
