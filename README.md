@@ -17,3 +17,4 @@
 - [x] Add X button to the top right corner to exit modal, prevent exiting modal on outside-modal click
 - [x] Only show confirmation modal on condition:
   - [x] If user had inputted data on the form then click X button immediately
+- [x] Avoid unnecessary rerendering on CreateModal component when canceling exitModal
