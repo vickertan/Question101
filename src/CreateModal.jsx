@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
 const modalBoxStyle = {
   position: "absolute",
@@ -23,7 +23,17 @@ const buttonStyle = {
   m: "auto",
 };
 
-function ExitConfirm({ exitConfirmOpen, handleClose, handleCloseConfirm }) {
+const ExitConfirm = forwardRef(function ExitConfirm({ handleClose }, ref) {
+  const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
+
+  const handleCloseConfirm = () => setExitConfirmOpen(false);
+
+  useImperativeHandle(ref, () => ({
+    handleOpenConfirm: () => {
+      setExitConfirmOpen(true);
+    },
+  }));
+
   return (
     <Modal open={exitConfirmOpen}>
       <Fade in={exitConfirmOpen}>
@@ -53,22 +63,26 @@ function ExitConfirm({ exitConfirmOpen, handleClose, handleCloseConfirm }) {
       </Fade>
     </Modal>
   );
-}
+});
 
 export default forwardRef(function CreateModal(props, ref) {
+  // State to render CreateModal
   const [open, setOpen] = useState(false);
-  const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
-
-  const handleOpenConfirm = () => setExitConfirmOpen(true);
-  const handleCloseConfirm = () => setExitConfirmOpen(false);
 
   useImperativeHandle(ref, () => ({
     handleOpen: () => {
       setOpen(true);
     },
   }));
+
+  // Ref to access exitModal's state
+  const exitModalRef = useRef(null);
+
+  const handleOpenConfirm = () => {
+    exitModalRef.current.handleOpenConfirm();
+  };
 
   return (
     <div>
@@ -91,11 +105,7 @@ export default forwardRef(function CreateModal(props, ref) {
             <p>Question: </p>
             <p>Category: </p>
             <h2>Category is set to global by default</h2>
-            <ExitConfirm
-              exitConfirmOpen={exitConfirmOpen}
-              handleCloseConfirm={handleCloseConfirm}
-              handleClose={handleClose}
-            />
+            <ExitConfirm ref={exitModalRef} handleClose={handleClose} />
           </Box>
         </Fade>
       </Modal>
