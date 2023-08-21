@@ -12,8 +12,9 @@
       - [x] This or that
       - [x] Global
 
+- [x] Rename ExitModal to ConfirmModal
 - [x] Fix "Yes" border not rendering
 - [x] Create component's style on separated file
 - [x] Add X button to the top right corner to exit modal, prevent exiting modal on outside-modal click
-- [x] Only show confirmation modal on condition:
+- [x] Only show ConfirmModal on condition:
   - [x] If user had inputted data on the form then click X button immediately
