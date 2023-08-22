@@ -4,7 +4,7 @@
 
   - [x] Add input for:
     - [x] Question
-    - [x] Category
+    - [x] Category (Done)
       - [x] Deep Thought
       - [x] Romance
       - [x] Food
