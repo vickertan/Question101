@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import QuestionForm from "./QuestionForm";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
 const modalBoxStyle = {
@@ -101,10 +102,7 @@ export default forwardRef(function CreateModal(props, ref) {
       >
         <Fade in={open}>
           <Box sx={modalBoxStyle}>
-            <h1>Question Creating</h1>
-            <p>Question: </p>
-            <p>Category: </p>
-            <h2>Category is set to global by default</h2>
+            <QuestionForm />
             <ExitConfirm ref={exitModalRef} handleClose={handleClose} />
           </Box>
         </Fade>
