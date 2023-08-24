@@ -5,14 +5,7 @@ import UploadRoundedIcon from "@mui/icons-material/UploadRounded";
 
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
-const categories = [
-  "Deep Thought",
-  "Romance",
-  "Food",
-  "Fun",
-  "This or That",
-  "Random",
-];
+const categories = ["Deep Thought", "Romance", "Food", "Fun", "This or That"];
 
 const CategoryInput = forwardRef(function CategoryInput(props, ref) {
   const [selectedCategory, setSelectedCategory] = useState("");
