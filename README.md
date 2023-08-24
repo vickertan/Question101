@@ -1,16 +1,9 @@
 # To Do List
 
-- [x] Create Question Creating box (CreateModal) form in another component
+- [x] Create Firestore to store user's uploaded data
 
-  - [x] Add input for:
-    - [x] Question
-    - [x] Category
-      - [x] Deep Thought
-      - [x] Romance
-      - [x] Food
-      - [x] Fun
-      - [x] This or that
-      - [x] Global
+  - [x] Prevent uploading data if there is no data either on 'category' or 'question'
+  - [x] Prevent uploading data if user is not logged in
 
 - [x] Fix "Yes" border not rendering
 - [x] Create component's style on separated file
