@@ -1,8 +1,9 @@
-import { Box, TextField, MenuItem } from "@mui/material";
-import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
-import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
+import { Box, TextField, MenuItem, Button } from "@mui/material";
+import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
+import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
+import UploadRoundedIcon from "@mui/icons-material/UploadRounded";
 
-import { useState } from "react";
+import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
 const categories = [
   "Deep Thought",
@@ -13,14 +14,24 @@ const categories = [
   "Random",
 ];
 
-function CategoryInput() {
+const CategoryInput = forwardRef(function CategoryInput(props, ref) {
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  useImperativeHandle(ref, () => ({
+    getSelectedCategory: () => {
+      setSelectedCategory("");
+      return selectedCategory ? selectedCategory : null;
+    },
+  }));
+
   return (
-    <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-      <CategoryOutlinedIcon
-        sx={{ color: "action.active", mr: 1, my: "auto" }}
-      />
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "flex-end",
+      }}
+    >
+      <CategoryRoundedIcon sx={{ color: "action.active", mr: 2, my: "auto" }} />
       <TextField
         sx={{ width: 200 }}
         select
@@ -36,15 +47,29 @@ function CategoryInput() {
       </TextField>
     </Box>
   );
-}
+});
 
-function QuestionInput() {
+const QuestionInput = forwardRef(function QuestionInput(props, ref) {
   const [userQuestion, setUserQuestion] = useState("");
 
+  useImperativeHandle(ref, () => ({
+    getUserQuestion: () => {
+      setUserQuestion("");
+      return userQuestion ? userQuestion : null;
+    },
+  }));
+
   return (
-    <Box sx={{ display: "flex", alignItems: "flex-end", my: 1 }}>
-      <QuestionAnswerOutlinedIcon
-        sx={{ color: "action.active", mr: 1, my: 0.5 }}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "flex-end",
+        my: 1,
+        width: 1,
+      }}
+    >
+      <QuestionAnswerRoundedIcon
+        sx={{ color: "action.active", mr: 2.5, my: 0.5 }}
       />
       <TextField
         id="user-question"
@@ -55,14 +80,29 @@ function QuestionInput() {
       />
     </Box>
   );
-}
+});
 
 export default function QuestionForm() {
+  const categoryInputRef = useRef(null);
+  const questionInputRef = useRef(null);
+
   return (
-    <>
+    <Box>
       <h1>Question Creating</h1>
-      <CategoryInput />
-      <QuestionInput />
-    </>
+      <CategoryInput ref={categoryInputRef} />
+      <QuestionInput ref={questionInputRef} />
+      <Button
+        sx={{ mt: 2 }}
+        variant="contained"
+        endIcon={<UploadRoundedIcon />}
+        onClick={() => {
+          console.log(
+            `Category: ${categoryInputRef.current.getSelectedCategory()}\nQuestion: ${questionInputRef.current.getUserQuestion()}`
+          );
+        }}
+      >
+        Upload
+      </Button>
+    </Box>
   );
 }
