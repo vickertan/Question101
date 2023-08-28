@@ -12,8 +12,10 @@ const CategoryInput = forwardRef(function CategoryInput(props, ref) {
 
   useImperativeHandle(ref, () => ({
     getSelectedCategory: () => {
+      return selectedCategory;
+    },
+    reset: () => {
       setSelectedCategory("");
-      return selectedCategory ? selectedCategory : null;
     },
   }));
 
@@ -47,8 +49,10 @@ const QuestionInput = forwardRef(function QuestionInput(props, ref) {
 
   useImperativeHandle(ref, () => ({
     getUserQuestion: () => {
+      return userQuestion;
+    },
+    reset: () => {
       setUserQuestion("");
-      return userQuestion ? userQuestion : null;
     },
   }));
 
@@ -89,9 +93,18 @@ export default function QuestionForm() {
         variant="contained"
         endIcon={<UploadRoundedIcon />}
         onClick={() => {
-          console.log(
-            `Category: ${categoryInputRef.current.getSelectedCategory()}\nQuestion: ${questionInputRef.current.getUserQuestion()}`
-          );
+          if (
+            categoryInputRef.current.getSelectedCategory() &&
+            questionInputRef.current.getUserQuestion()
+          ) {
+            console.log(
+              `Category: ${categoryInputRef.current.getSelectedCategory()}\nQuestion: ${questionInputRef.current.getUserQuestion()}`
+            );
+            categoryInputRef.current.reset();
+            questionInputRef.current.reset();
+          } else {
+            console.log("Input error");
+          }
         }}
       >
         Upload
