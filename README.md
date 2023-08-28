@@ -5,6 +5,9 @@
   - [x] Prevent uploading data if there is no data either on 'category' or 'question'
   - [x] Only verified user are allowed to upload questions
 
+- [x] Direct user to playground using BrowserRouter
+- [x] Render questions from Firestore
+
 - [x] Add X button to the top right corner to exit modal, prevent exiting modal on outside-modal click
 - [x] Create loading animation when reading user auth's state to display icon button
 - [x] Fix "Yes" border not rendering
