@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import CreateModal from "./CreateModal";
 
-export default function MenuSelection() {
+export default function MainMenu() {
   const modalRef = useRef(null);
 
   const handleOpen = () => {

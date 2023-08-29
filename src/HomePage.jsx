@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import MenuSelection from "./MenuSelection";
+import MainMenu from "./MainMenu";
 import AppBar from "./AppBar";
 
 export default function HomePage() {
@@ -11,7 +11,7 @@ export default function HomePage() {
     >
       <AppBar />
       <h1>Question 101</h1>
-      <MenuSelection />
+      <MainMenu />
     </Box>
   );
 }
