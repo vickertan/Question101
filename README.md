@@ -2,7 +2,6 @@
 
 - [x] Create Firestore to store uploaded questions
 
-  - [x] Prevent uploading data if there is no data either on 'category' or 'question'
   - [x] Only verified user are allowed to upload questions
 
 - [x] Direct user to playground using BrowserRouter
