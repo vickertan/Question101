@@ -1,5 +1,6 @@
 # To Do List
 
+- [x] Try useContext hook to pass data from main parent to child component
 - [x] Create Firestore to store uploaded questions
 
   - [x] Only verified user are allowed to upload questions
