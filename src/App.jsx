@@ -1,12 +1,17 @@
 import "./style.css";
 import HomePage from "./HomePage";
-import { useState, useEffect } from "react";
-import { auth } from "../firebase";
+import QuestionCollContext from "./QuestionCollContext";
+import { useState, useEffect, useContext } from "react";
+import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { collection } from "firebase/firestore";
 
 function App() {
   console.log("Render app");
-  const [user, setUser] = useState(null);
+
+  const [_, setUser] = useState(null);
+
+  const questionColl = collection(db, "questions");
 
   useEffect(() => {
     onAuthStateChanged(auth, (u) => {
@@ -18,9 +23,11 @@ function App() {
     });
   });
 
-  console.log(user ? user.displayName : "No user");
-
-  return <HomePage />;
+  return (
+    <QuestionCollContext.Provider value={questionColl}>
+      <HomePage />
+    </QuestionCollContext.Provider>
+  );
 }
 
 export default App;

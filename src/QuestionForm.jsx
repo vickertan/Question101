@@ -2,8 +2,15 @@ import { Box, TextField, MenuItem, Button } from "@mui/material";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import UploadRoundedIcon from "@mui/icons-material/UploadRounded";
-
-import { useState, useRef, forwardRef, useImperativeHandle } from "react";
+import {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  useContext,
+} from "react";
+import { addDoc } from "firebase/firestore";
+import QuestionCollContext from "./QuestionCollContext";
 
 const categories = ["Deep Thought", "Romance", "Food", "Fun", "This or That"];
 
@@ -80,8 +87,21 @@ const QuestionInput = forwardRef(function QuestionInput(props, ref) {
 });
 
 export default function QuestionForm() {
+  const questionColl = useContext(QuestionCollContext);
+
   const categoryInputRef = useRef(null);
   const questionInputRef = useRef(null);
+
+  const submitQuestion = async () => {
+    try {
+      await addDoc(questionColl, {
+        content: questionInputRef.current.getUserQuestion(),
+        category: categoryInputRef.current.getSelectedCategory(),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Box>
@@ -97,9 +117,11 @@ export default function QuestionForm() {
             categoryInputRef.current.getSelectedCategory() &&
             questionInputRef.current.getUserQuestion()
           ) {
-            console.log(
-              `Category: ${categoryInputRef.current.getSelectedCategory()}\nQuestion: ${questionInputRef.current.getUserQuestion()}`
-            );
+            // console.log(
+            //   `Category: ${categoryInputRef.current.getSelectedCategory()}\nQuestion: ${questionInputRef.current.getUserQuestion()}`
+            // );
+            submitQuestion();
+            console.log("Question Submitted");
             categoryInputRef.current.reset();
             questionInputRef.current.reset();
           } else {
