@@ -1,7 +1,7 @@
 import "./style.css";
 import HomePage from "./HomePage";
 import QuestionCollContext from "./QuestionCollContext";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection } from "firebase/firestore";
