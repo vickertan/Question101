@@ -81,7 +81,7 @@ export default forwardRef(function CreateModal(props, ref) {
   // Ref to access ExitConfirm's state
   const exitConfirmRef = useRef(null);
 
-  // Ref to access input's node
+  // Ref to access QuestionForm's child's state
   const questionFormRef = useRef(null);
 
   return (

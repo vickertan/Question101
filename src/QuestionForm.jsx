@@ -8,7 +8,6 @@ import {
   forwardRef,
   useImperativeHandle,
   useContext,
-  useEffect,
 } from "react";
 import { addDoc } from "firebase/firestore";
 import QuestionCollContext from "./QuestionCollContext";
@@ -95,10 +94,10 @@ const QuestionForm = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     getUserCategory: () => {
-      categoryInputRef.current.getUserCategory();
+      return categoryInputRef.current.getUserCategory();
     },
     getUserQuestion: () => {
-      questionInputRef.current.getUserQuestion();
+      return questionInputRef.current.getUserQuestion();
     },
   }));
 
@@ -124,7 +123,6 @@ const QuestionForm = forwardRef((props, ref) => {
         variant="contained"
         endIcon={<UploadRoundedIcon />}
         onClick={() => {
-          // Bug: categoryInput.current.getUserCategory & questionInputRef.current.getUserQuestion will always return null
           if (
             categoryInputRef.current.getUserCategory() &&
             questionInputRef.current.getUserQuestion()
