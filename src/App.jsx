@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection } from "firebase/firestore";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   console.log("Render app");
@@ -24,9 +25,14 @@ function App() {
   });
 
   return (
-    <QuestionCollContext.Provider value={questionColl}>
-      <HomePage />
-    </QuestionCollContext.Provider>
+    <BrowserRouter>
+      <QuestionCollContext.Provider value={questionColl}>
+        <Routes>
+          <Route path="/playground" />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </QuestionCollContext.Provider>
+    </BrowserRouter>
   );
 }
 

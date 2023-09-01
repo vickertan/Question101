@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import CreateModal from "./CreateModal";
@@ -21,11 +22,13 @@ export default function MainMenu() {
         aria-label="vertical contained button group"
         variant="text"
       >
-        <Button
-          sx={{ border: "solid", height: "10rem", width: "10rem", mb: 2 }}
-        >
-          Card Icon here
-        </Button>
+        <Link to="/playground">
+          <Button
+            sx={{ border: "solid", height: "10rem", width: "10rem", mb: 2 }}
+          >
+            Card Icon here
+          </Button>
+        </Link>
         <Button>Topic</Button>
         <Button>Favorite</Button>
 
