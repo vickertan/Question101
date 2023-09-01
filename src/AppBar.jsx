@@ -3,8 +3,6 @@ import { auth, googleProvider } from "../firebase";
 import { signInWithRedirect } from "firebase/auth";
 import { useState } from "react";
 
-const settings = ["Log Out"];
-
 export default function ButtonAppBar() {
   const signInWithGoogle = async () => {
     try {
