@@ -8,6 +8,7 @@ import {
   forwardRef,
   useImperativeHandle,
   useContext,
+  useEffect,
 } from "react";
 import { addDoc } from "firebase/firestore";
 import QuestionCollContext from "./QuestionCollContext";
@@ -15,14 +16,14 @@ import QuestionCollContext from "./QuestionCollContext";
 const categories = ["Deep Thought", "Romance", "Food", "Fun", "This or That"];
 
 const CategoryInput = forwardRef(function CategoryInput(props, ref) {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [userCategory, setUserCategory] = useState("");
 
   useImperativeHandle(ref, () => ({
-    getSelectedCategory: () => {
-      return selectedCategory;
+    getUserCategory: () => {
+      return userCategory;
     },
     reset: () => {
-      setSelectedCategory("");
+      setUserCategory("");
     },
   }));
 
@@ -38,8 +39,8 @@ const CategoryInput = forwardRef(function CategoryInput(props, ref) {
         sx={{ width: 200 }}
         select
         label="Category"
-        onChange={(e) => setSelectedCategory(e.target.value)}
-        value={selectedCategory}
+        onChange={(e) => setUserCategory(e.target.value)}
+        value={userCategory}
       >
         {categories.map((category) => (
           <MenuItem key={category} value={category}>
@@ -86,18 +87,28 @@ const QuestionInput = forwardRef(function QuestionInput(props, ref) {
   );
 });
 
-export default function QuestionForm() {
+const QuestionForm = forwardRef((props, ref) => {
   const questionColl = useContext(QuestionCollContext);
 
   const categoryInputRef = useRef(null);
   const questionInputRef = useRef(null);
 
+  useImperativeHandle(ref, () => ({
+    getUserCategory: () => {
+      categoryInputRef.current.getUserCategory();
+    },
+    getUserQuestion: () => {
+      questionInputRef.current.getUserQuestion();
+    },
+  }));
+
   const submitQuestion = async () => {
     try {
       await addDoc(questionColl, {
-        content: questionInputRef.current.getUserQuestion(),
-        category: categoryInputRef.current.getSelectedCategory(),
+        category: categoryInputRef.current.getUserCategory(),
+        question: questionInputRef.current.getUserQuestion(),
       });
+      console.log("Data submitted");
     } catch (err) {
       console.error(err);
     }
@@ -113,15 +124,12 @@ export default function QuestionForm() {
         variant="contained"
         endIcon={<UploadRoundedIcon />}
         onClick={() => {
+          // Bug: categoryInput.current.getUserCategory & questionInputRef.current.getUserQuestion will always return null
           if (
-            categoryInputRef.current.getSelectedCategory() &&
+            categoryInputRef.current.getUserCategory() &&
             questionInputRef.current.getUserQuestion()
           ) {
-            // console.log(
-            //   `Category: ${categoryInputRef.current.getSelectedCategory()}\nQuestion: ${questionInputRef.current.getUserQuestion()}`
-            // );
             submitQuestion();
-            console.log("Question Submitted");
             categoryInputRef.current.reset();
             questionInputRef.current.reset();
           } else {
@@ -133,4 +141,6 @@ export default function QuestionForm() {
       </Button>
     </Box>
   );
-}
+});
+
+export default QuestionForm;

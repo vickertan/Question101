@@ -78,12 +78,11 @@ export default forwardRef(function CreateModal(props, ref) {
     },
   }));
 
-  // Ref to access exitModal's state
-  const exitModalRef = useRef(null);
+  // Ref to access ExitConfirm's state
+  const exitConfirmRef = useRef(null);
 
-  const handleOpenConfirm = () => {
-    exitModalRef.current.handleOpenConfirm();
-  };
+  // Ref to access input's node
+  const questionFormRef = useRef(null);
 
   return (
     <div>
@@ -91,7 +90,16 @@ export default forwardRef(function CreateModal(props, ref) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={handleOpenConfirm}
+        onClose={() => {
+          if (
+            questionFormRef.current.getUserCategory() ||
+            questionFormRef.current.getUserQuestion()
+          ) {
+            exitConfirmRef.current.handleOpenConfirm();
+          } else {
+            handleClose();
+          }
+        }}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -102,8 +110,8 @@ export default forwardRef(function CreateModal(props, ref) {
       >
         <Fade in={open}>
           <Box sx={modalBoxStyle}>
-            <QuestionForm />
-            <ExitConfirm ref={exitModalRef} handleClose={handleClose} />
+            <QuestionForm ref={questionFormRef} />
+            <ExitConfirm ref={exitConfirmRef} handleClose={handleClose} />
           </Box>
         </Fade>
       </Modal>
