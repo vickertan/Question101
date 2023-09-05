@@ -67,14 +67,18 @@ export default function AppBar() {
         height: "50px",
       }}
     >
-      <Box sx={{ ml: 1.5, mt: 0.8, height: "fit-content" }}>
+      <IconButton
+        size="large"
+        sx={{ ml: 1.5 }}
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <StyleRoundedIcon
           fontSize="large"
-          onClick={() => {
-            navigate("/");
-          }}
+          sx={{ color: "action.active" }}
         ></StyleRoundedIcon>
-      </Box>
+      </IconButton>
       {auth.currentUser ? (
         <UserIcon />
       ) : (
