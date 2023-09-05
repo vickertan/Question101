@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
-import CreateModal from "./CreateModal";
+import CreateWindow from "./CreateWindow";
 
 export default function MainMenu() {
   const modalRef = useRef(null);
@@ -35,7 +35,7 @@ export default function MainMenu() {
         {/* Only show Create menu selection for verified user */}
         <Button onClick={handleOpen}>Create</Button>
       </ButtonGroup>
-      <CreateModal ref={modalRef} />
+      <CreateWindow ref={modalRef} />
     </Box>
   );
 }

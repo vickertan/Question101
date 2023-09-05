@@ -66,8 +66,8 @@ const ExitConfirm = forwardRef(function ExitConfirm({ handleClose }, ref) {
   );
 });
 
-export default forwardRef(function CreateModal(props, ref) {
-  // State to render CreateModal
+export default forwardRef(function CreateWindow(props, ref) {
+  // State to render CreateWindow
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
