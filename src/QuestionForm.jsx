@@ -37,7 +37,7 @@ const CategoryInput = forwardRef(function CategoryInput(props, ref) {
       <TextField
         sx={{ width: 200 }}
         select
-        label="Category"
+        label="Topic"
         onChange={(e) => setUserCategory(e.target.value)}
         value={userCategory}
       >
