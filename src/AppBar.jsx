@@ -1,7 +1,9 @@
 import { Box, Button, IconButton, Menu, MenuItem, Avatar } from "@mui/material";
+import StyleRoundedIcon from "@mui/icons-material/StyleRounded";
 import { auth, googleProvider } from "../firebase";
 import { signInWithRedirect } from "firebase/auth";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function UserIcon() {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -46,7 +48,9 @@ function UserIcon() {
   );
 }
 
-export default function ButtonAppBar() {
+export default function AppBar() {
+  const navigate = useNavigate();
+
   const signInWithGoogle = async () => {
     try {
       await signInWithRedirect(auth, googleProvider);
@@ -60,9 +64,17 @@ export default function ButtonAppBar() {
       sx={{
         backgroundColor: "lightpink",
         display: "flex",
-        height: "fill-content",
+        height: "50px",
       }}
     >
+      <Box sx={{ ml: 1.5, mt: 0.8, height: "fit-content" }}>
+        <StyleRoundedIcon
+          fontSize="large"
+          onClick={() => {
+            navigate("/");
+          }}
+        ></StyleRoundedIcon>
+      </Box>
       {auth.currentUser ? (
         <UserIcon />
       ) : (
