@@ -9,7 +9,6 @@ export default function HomePage() {
         textAlign: "center",
       }}
     >
-      <AppBar />
       <h1>Question 101</h1>
       <MainMenu />
     </Box>
