@@ -17,7 +17,7 @@ function UserIcon() {
   };
 
   return (
-    <Box sx={{ ml: "auto" }}>
+    <Box>
       <IconButton onClick={handleOpenUserMenu} size="small">
         <Avatar
           alt={auth.currentUser.displayName}
@@ -64,12 +64,12 @@ export default function AppBar() {
       sx={{
         backgroundColor: "lightpink",
         display: "flex",
+        justifyContent: "space-between",
         height: "50px",
       }}
     >
       <IconButton
         size="large"
-        sx={{ ml: 1.5 }}
         onClick={() => {
           navigate("/");
         }}
@@ -82,9 +82,7 @@ export default function AppBar() {
       {auth.currentUser ? (
         <UserIcon />
       ) : (
-        <Button sx={{ ml: "auto", height: "50px" }} onClick={signInWithGoogle}>
-          Log In
-        </Button>
+        <Button onClick={signInWithGoogle}>Log In</Button>
       )}
     </Box>
   );
