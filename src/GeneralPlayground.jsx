@@ -26,14 +26,14 @@ export default function GeneralPlayground() {
   }, []);
 
   return (
-    <div className="card-container">
+    <div className="card-area">
       {questionList.map((question) => (
-        <TinderCard key={question.id} className="swipe">
-          <div className="card">
+        <div className="card-container" key={question.id}>
+          <TinderCard className="card">
             <h2 className="question">{question.question}</h2>
             <p className="category">{question.category}</p>
-          </div>
-        </TinderCard>
+          </TinderCard>
+        </div>
       ))}
     </div>
   );

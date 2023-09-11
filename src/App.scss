@@ -1,6 +1,5 @@
 #root {
   text-align: center;
-  overflow: hidden;
   justify-content: center;
   width: 100vw;
   min-height: 100vh;
@@ -8,19 +7,12 @@
 
 * {
   user-select: none;
-  overflow: hidden;
 }
 
 body {
   background-color: beige;
   margin: 0px;
-}
-
-#root > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
 }
 
 .menu-container {
@@ -30,31 +22,27 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.card-container {
+.card-area {
   position: absolute;
+  width: 150px;
+  height: 450px;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  overflow: visible;
-  width: 90vw;
-  max-width: 260px;
-  height: 100rem;
+  left: 30%;
+  transform: translate(-60%, -50%);
 }
 
-.swipe {
+.card-container {
   position: absolute;
 }
 
 .card {
-  position: relative;
+  position: absolute;
   background-color: #fff;
-  width: 80vw;
-  max-width: 260px;
+  width: 260px;
   height: 400px;
-  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  border: 0.1px solid;
   border-radius: 20px;
-  background-size: cover;
-  background-position: center;
 }
 
 .card .question {
@@ -70,4 +58,12 @@ body {
   position: absolute;
   bottom: 0;
   left: 8%;
+}
+
+@for $i from 1 through 8 {
+  .card-container:nth-child(#{$i}n) {
+    left: random(100) + $i * 1px;
+    top: random(30) + $i * 1px;
+    transform: rotate(random(7) - 2 * 1deg);
+  }
 }
