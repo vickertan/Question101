@@ -76,6 +76,7 @@ const QuestionInput = forwardRef(function QuestionInput(props, ref) {
         sx={{ color: "action.active", mr: 2.5, my: 0.5 }}
       />
       <TextField
+        autoComplete="off"
         id="user-question"
         label="Your question here..."
         variant="standard"
