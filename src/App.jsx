@@ -1,4 +1,4 @@
-import "./style.css";
+import "./App.css";
 import HomePage from "./HomePage";
 import GeneralPlayground from "./GeneralPlayground";
 import QuestionCollContext from "./QuestionCollContext";
