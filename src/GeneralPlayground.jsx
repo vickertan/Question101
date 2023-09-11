@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import QuestionCollContext from "./QuestionCollContext";
 import { getDocs } from "firebase/firestore";
-import { Box } from "@mui/material";
 import TinderCard from "react-tinder-card";
 
 export default function GeneralPlayground() {
@@ -27,17 +26,15 @@ export default function GeneralPlayground() {
   }, []);
 
   return (
-    <Box>
+    <div className="card-container">
       {questionList.map((question) => (
-        <TinderCard
-          key={question.id}
-          swipeThreshold
-          swipeRequirementType="velocity"
-        >
-          <h2>{question.question}</h2>
-          <h2>{question.category}</h2>
+        <TinderCard key={question.id} className="swipe">
+          <div className="card">
+            <h2 className="question">{question.question}</h2>
+            <p className="category">{question.category}</p>
+          </div>
         </TinderCard>
       ))}
-    </Box>
+    </div>
   );
 }
