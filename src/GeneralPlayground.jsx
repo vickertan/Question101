@@ -9,30 +9,18 @@ import {
 import QuestionCollContext from "./QuestionCollContext";
 import { getDocs } from "firebase/firestore";
 import TinderCard from "react-tinder-card";
+import { ButtonGroup, IconButton } from "@mui/material";
+import SwipeRightRoundedIcon from "@mui/icons-material/SwipeRightRounded";
+import SwipeLeftRoundedIcon from "@mui/icons-material/SwipeLeftRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 
 export default function GeneralPlayground() {
   const questionColl = useContext(QuestionCollContext);
 
   const [questionList, setQuestionList] = useState([]);
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const data = await getDocs(questionColl);
-        const questions = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setQuestionList(questions);
-        console.log("Questions fetched");
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchQuestions();
-  }, []);
-
-  const [currentIndex, setCurrentIndex] = useState(questionList.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex);
@@ -44,6 +32,24 @@ export default function GeneralPlayground() {
         .map((i) => createRef()),
     []
   );
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const data = await getDocs(questionColl);
+        const questions = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setQuestionList(questions);
+        setCurrentIndex(questions.length - 1);
+        console.log("Questions fetched");
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchQuestions();
+  }, []);
 
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
@@ -84,19 +90,46 @@ export default function GeneralPlayground() {
   };
 
   return (
-    <div className="card-area">
-      {questionList.map((question, index) => (
-        <div className="card-container" key={question.id}>
-          <TinderCard
-            className="card"
-            onSwipe={(dir) => swiped(dir, question.question, index)}
-            onCardLeftScreen={() => outOfFrame(question.question, index)}
+    <div className="playground">
+      <div className="card-area">
+        {questionList.map((question, index) => (
+          <div className="card-container" key={question.id}>
+            <TinderCard
+              ref={childRefs[index]}
+              className="card"
+              onSwipe={(dir) => swiped(dir, question.question, index)}
+              onCardLeftScreen={() => outOfFrame(question.question, index)}
+            >
+              <h2 className="question">{question.question}</h2>
+              <p className="category">{question.category}</p>
+            </TinderCard>
+          </div>
+        ))}
+      </div>
+      <div className="button-area">
+        <ButtonGroup className="playground-button-group">
+          <IconButton
+            onClick={() => {
+              swipe("left");
+            }}
           >
-            <h2 className="question">{question.question}</h2>
-            <p className="category">{question.category}</p>
-          </TinderCard>
-        </div>
-      ))}
+            <SwipeLeftRoundedIcon fontSize="large" />
+          </IconButton>
+          <IconButton onClick={() => goBack()}>
+            <ReplayRoundedIcon fontSize="large" />
+          </IconButton>
+          <IconButton>
+            <FavoriteRoundedIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              swipe("right");
+            }}
+          >
+            <SwipeRightRoundedIcon fontSize="large" />
+          </IconButton>
+        </ButtonGroup>
+      </div>
     </div>
   );
 }

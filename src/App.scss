@@ -67,3 +67,9 @@ body {
     transform: rotate(random(10) - 2 * 1deg);
   }
 }
+
+.button-area {
+  position: fixed;
+  bottom: 40px;
+  width: 100%;
+}
