@@ -1,5 +1,7 @@
 # To Do List
 
+- [x] fetch questions on the beginning of the app load and pass it to the Playground conmponent
+
 - [x] Only verified user are allowed to upload questions
 
 - [x] Render questions from Firestore
