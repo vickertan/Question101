@@ -64,6 +64,6 @@ body {
   .card-container:nth-child(#{$i}n) {
     left: random(100) + $i * 1px;
     top: random(30) + $i * 1px;
-    transform: rotate(random(7) - 2 * 1deg);
+    transform: rotate(random(10) - 2 * 1deg);
   }
 }
