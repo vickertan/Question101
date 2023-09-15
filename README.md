@@ -2,8 +2,6 @@
 
 - [x] fetch questions on the beginning of the app load and pass it to the Playground conmponent
 
-- [x] Create dynamic size for question card
-
 - [x] Only verified user are allowed to upload questions
 
 - [x] Render questions from Firestore
