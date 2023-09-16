@@ -1,23 +1,9 @@
-import {
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-  useRef,
-  createRef,
-} from "react";
-import QuestionCollContext from "./QuestionCollContext";
-import { getDocs } from "firebase/firestore";
+import { useState, useMemo, useRef, createRef } from "react";
 import TinderCard from "react-tinder-card";
 import PlaygroundButton from "./PlaygroundButton";
 
-export default function GeneralPlayground() {
-  const questionColl = useContext(QuestionCollContext);
-
-  const [questionList, setQuestionList] = useState([]);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [lastDirection, setLastDirection] = useState();
+export default function GeneralPlayground({ questionList }) {
+  const [currentIndex, setCurrentIndex] = useState(questionList.length - 1);
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex);
 
@@ -29,24 +15,6 @@ export default function GeneralPlayground() {
     []
   );
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const data = await getDocs(questionColl);
-        const questions = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setQuestionList(questions);
-        setCurrentIndex(questions.length - 1);
-        console.log("Questions fetched");
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchQuestions();
-  }, []);
-
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
     currentIndexRef.current = val;
@@ -57,15 +25,19 @@ export default function GeneralPlayground() {
   const canSwipe = currentIndex >= 0;
 
   // set last direction and decrease current index
-  const swiped = (direction, nameToDelete, index) => {
-    setLastDirection(direction);
+  const swiped = (index) => {
+    console.log("Swiped index: ", index);
     updateCurrentIndex(index - 1);
   };
 
-  const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+  const outOfFrame = (name, index) => {
+    console.log(
+      `${name} at index ${index} left the screen!`,
+      "Current index :",
+      currentIndexRef.current
+    );
     // handle the case in which go back is pressed before card goes outOfFrame
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
+    currentIndexRef.current >= index && childRefs[index].current.restoreCard();
     // TODO: when quickly swipe and restore multiple times the same card,
     // it happens multiple outOfFrame events are queued and the card disappear
     // during latest swipes. Only the last outOfFrame event should be considered valid
@@ -93,7 +65,7 @@ export default function GeneralPlayground() {
             <TinderCard
               ref={childRefs[index]}
               className="card"
-              onSwipe={(dir) => swiped(dir, question.question, index)}
+              onSwipe={() => swiped(index)}
               onCardLeftScreen={() => outOfFrame(question.question, index)}
             >
               <h2 className="question">{question.question}</h2>
