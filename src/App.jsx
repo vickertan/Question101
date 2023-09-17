@@ -1,12 +1,12 @@
 import "./App.scss";
-import HomePage from "./HomePage";
+import AppBar from "./AppBar";
 import GeneralPlayground from "./GeneralPlayground";
+import HomePage from "./HomePage";
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, onSnapshot } from "firebase/firestore";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AppBar from "./AppBar";
 import QuestionCollContext from "./QuestionCollContext";
 
 function App() {
@@ -26,7 +26,6 @@ function App() {
         onSnapshot(questionColl, (snapshot) => {
           const data = snapshot.docs.map((doc) => ({
             ...doc.data(),
-            id: doc.id,
           }));
           setQuestionList(data);
           console.log("Questions fetched");
