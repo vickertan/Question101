@@ -2,15 +2,9 @@ import { Box, TextField, MenuItem, Button } from "@mui/material";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import UploadRoundedIcon from "@mui/icons-material/UploadRounded";
-import {
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-  useContext,
-} from "react";
-import { addDoc } from "firebase/firestore";
-import QuestionCollContext from "./QuestionCollContext";
+import { useState, useRef, forwardRef, useImperativeHandle } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const categories = ["Deep Thought", "Romance", "Food", "Fun", "This or That"];
 
@@ -88,8 +82,6 @@ const QuestionInput = forwardRef(function QuestionInput(props, ref) {
 });
 
 const QuestionForm = forwardRef((props, ref) => {
-  const questionColl = useContext(QuestionCollContext);
-
   const categoryInputRef = useRef(null);
   const questionInputRef = useRef(null);
 
@@ -103,10 +95,13 @@ const QuestionForm = forwardRef((props, ref) => {
   }));
 
   const submitQuestion = async () => {
+    const question = questionInputRef.current.getUserQuestion();
+
     try {
-      await addDoc(questionColl, {
+      await setDoc(doc(db, "questions", question), {
+        title: question,
         category: categoryInputRef.current.getUserCategory(),
-        question: questionInputRef.current.getUserQuestion(),
+        favoritedBy: [],
       });
       console.log("Data submitted");
     } catch (err) {
