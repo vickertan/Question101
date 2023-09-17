@@ -1,6 +1,6 @@
 # To Do List
 
-- [x] fetch questions on the beginning of the app load and pass it to the Playground conmponent
+- [x] Pass userId to 'favoriteBy' field
 
 - [x] Only verified user are allowed to upload questions
 
