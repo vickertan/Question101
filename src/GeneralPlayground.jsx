@@ -57,18 +57,20 @@ export default function GeneralPlayground({ questionList }) {
     await childRefs[newIndex].current.restoreCard();
   };
 
+  // logic to set favorite for question
+
   return (
     <div className="playground">
       <div className="card-area">
         {questionList.map((question, index) => (
-          <div className="card-container" key={question.id}>
+          <div className="card-container" key={question.title}>
             <TinderCard
               ref={childRefs[index]}
               className="card"
               onSwipe={() => swiped(index)}
-              onCardLeftScreen={() => outOfFrame(question.question, index)}
+              onCardLeftScreen={() => outOfFrame(question.title, index)}
             >
-              <h2 className="question">{question.question}</h2>
+              <h2 className="question">{question.title}</h2>
               <p className="category">{question.category}</p>
             </TinderCard>
           </div>
