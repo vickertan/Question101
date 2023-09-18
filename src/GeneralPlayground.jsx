@@ -1,9 +1,21 @@
-import { useState, useMemo, useRef, createRef } from "react";
+import { useEffect, useState, useMemo, useRef, createRef } from "react";
+import { doc, getDoc, runTransaction } from "firebase/firestore";
+import { db, auth } from "../firebase";
 import TinderCard from "react-tinder-card";
 import PlaygroundButton from "./PlaygroundButton";
 
 export default function GeneralPlayground({ questionList }) {
   const [currentIndex, setCurrentIndex] = useState(questionList.length - 1);
+
+  // keep currentQuestion state to access current question's data in firestore
+  const [currentQuestion, setCurrentQuestion] = useState(
+    questionList[currentIndex]
+  );
+
+  useEffect(() => {
+    setCurrentQuestion(questionList[currentIndex]);
+  }, [currentIndex]);
+
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex);
 
@@ -58,25 +70,51 @@ export default function GeneralPlayground({ questionList }) {
   };
 
   // logic to set favorite for question
+  const setFavorite = async () => {
+    // console.log(currentQuestion.id);
+
+    // const curCollRef = doc(db, "questions", currentQuestion.id);
+
+  //   try {
+  //     await runTransaction(db, async (transaction) => {
+  //       const curDoc = await transaction.get(curCollRef);
+  //       if (!curDoc.exists()) {
+  //         throw "Document does not exist!";
+  //       }
+
+  //       let newData = curDoc.data().favoritedBy;
+
+  //       console.log(newData.push(auth.currentUser.uid));
+  //       // transaction.update(curCollRef, { favoritedBy: newData });
+  //     });
+  //     console.log("Transaction successfully committed!");
+  //   } catch (err) {
+  //     console.error("Transaction failed: ", err);
+  //   }
+  // };
 
   return (
     <div className="playground">
       <div className="card-area">
         {questionList.map((question, index) => (
-          <div className="card-container" key={question.title}>
+          <div className="card-container" key={question.id}>
             <TinderCard
               ref={childRefs[index]}
               className="card"
               onSwipe={() => swiped(index)}
-              onCardLeftScreen={() => outOfFrame(question.title, index)}
+              onCardLeftScreen={() => outOfFrame(question.id, index)}
             >
-              <h2 className="question">{question.title}</h2>
+              <h2 className="question">{question.id}</h2>
               <p className="category">{question.category}</p>
             </TinderCard>
           </div>
         ))}
       </div>
-      <PlaygroundButton swipe={swipe} goBack={goBack} />
+      <PlaygroundButton
+        swipe={swipe}
+        goBack={goBack}
+        setFavorite={setFavorite}
+      />
     </div>
   );
 }

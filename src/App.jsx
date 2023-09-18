@@ -26,6 +26,7 @@ function App() {
         onSnapshot(questionColl, (snapshot) => {
           const data = snapshot.docs.map((doc) => ({
             ...doc.data(),
+            id: doc.id,
           }));
           setQuestionList(data);
           console.log("Questions fetched");

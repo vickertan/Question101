@@ -99,7 +99,6 @@ const QuestionForm = forwardRef((props, ref) => {
 
     try {
       await setDoc(doc(db, "questions", question), {
-        title: question,
         category: categoryInputRef.current.getUserCategory(),
         favoritedBy: [],
       });
