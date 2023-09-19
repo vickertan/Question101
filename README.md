@@ -1,6 +1,6 @@
 # To Do List
 
-- [x] Pass userId to 'favoriteBy' field
+- [x] Show love icon on card when current user has it in his/her favorite list
 
 - [x] Only verified user are allowed to upload questions
 
