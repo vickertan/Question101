@@ -4,7 +4,7 @@ import SwipeLeftRoundedIcon from "@mui/icons-material/SwipeLeftRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 
-export default function PlaygroundButton({ swipe, goBack }) {
+export default function PlaygroundButton({ swipe, goBack, setFavorite }) {
   return (
     <div className="button-area">
       <ButtonGroup className="playground-button-group">
@@ -18,7 +18,7 @@ export default function PlaygroundButton({ swipe, goBack }) {
         <IconButton onClick={() => goBack()}>
           <ReplayRoundedIcon fontSize="large" />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={() => setFavorite()}>
           <FavoriteRoundedIcon fontSize="large" />
         </IconButton>
         <IconButton

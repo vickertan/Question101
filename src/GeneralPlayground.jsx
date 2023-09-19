@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useRef, createRef } from "react";
-import { doc, getDoc, runTransaction } from "firebase/firestore";
+import { doc, runTransaction } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import TinderCard from "react-tinder-card";
 import PlaygroundButton from "./PlaygroundButton";
@@ -71,27 +71,37 @@ export default function GeneralPlayground({ questionList }) {
 
   // logic to set favorite for question
   const setFavorite = async () => {
-    // console.log(currentQuestion.id);
+    const curCollRef = doc(db, "questions", currentQuestion.id);
+    const curUsername = auth.currentUser.displayName;
+    const curUid = auth.currentUser.uid;
 
-    // const curCollRef = doc(db, "questions", currentQuestion.id);
+    try {
+      await runTransaction(db, async (transaction) => {
+        const curDoc = await transaction.get(curCollRef);
+        if (!curDoc.exists()) {
+          throw "Document does not exist!";
+        }
 
-  //   try {
-  //     await runTransaction(db, async (transaction) => {
-  //       const curDoc = await transaction.get(curCollRef);
-  //       if (!curDoc.exists()) {
-  //         throw "Document does not exist!";
-  //       }
+        // prevent uploading existing user data on favoritedBy field
+        const data = { ...curDoc.data().favoritedBy };
+        if (!data[curUsername]) {
+          data[curUsername] = curUid;
+          transaction.update(curCollRef, { favoritedBy: data });
+          console.log(
+            `${curUsername} added ${currentQuestion.id} to their favorite list`
+          );
 
-  //       let newData = curDoc.data().favoritedBy;
+          // show some sign to user when they succeeded add currentQuestion.id to their favorite list
+        } else {
+          console.log(`You set ${currentQuestion.id} as favorite already`);
 
-  //       console.log(newData.push(auth.currentUser.uid));
-  //       // transaction.update(curCollRef, { favoritedBy: newData });
-  //     });
-  //     console.log("Transaction successfully committed!");
-  //   } catch (err) {
-  //     console.error("Transaction failed: ", err);
-  //   }
-  // };
+          // show some sign to user when they already added currentQuestion.id to their favorite
+        }
+      });
+    } catch (err) {
+      console.error("Transaction failed: ", err);
+    }
+  };
 
   return (
     <div className="playground">

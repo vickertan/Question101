@@ -100,7 +100,7 @@ const QuestionForm = forwardRef((props, ref) => {
     try {
       await setDoc(doc(db, "questions", question), {
         category: categoryInputRef.current.getUserCategory(),
-        favoritedBy: [],
+        favoritedBy: {},
       });
       console.log("Data submitted");
     } catch (err) {
