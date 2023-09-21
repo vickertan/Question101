@@ -1,10 +1,10 @@
 import { useEffect, useState, useMemo, useRef, createRef } from "react";
-import { doc, runTransaction } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import TinderCard from "react-tinder-card";
-import PlaygroundButton from "./PlaygroundButton";
+import DeckButton from "./DeckButton";
 
-export default function GeneralPlayground({ questionList }) {
+export default function Deck({ questionList }) {
   const [currentIndex, setCurrentIndex] = useState(questionList.length - 1);
 
   // keep currentQuestion state to access current question's data in firestore
@@ -71,35 +71,13 @@ export default function GeneralPlayground({ questionList }) {
 
   // logic to set favorite for question
   const setFavorite = async () => {
-    const curCollRef = doc(db, "questions", currentQuestion.id);
-    const curUsername = auth.currentUser.displayName;
-    const curUid = auth.currentUser.uid;
-
     try {
-      await runTransaction(db, async (transaction) => {
-        const curDoc = await transaction.get(curCollRef);
-        if (!curDoc.exists()) {
-          throw "Document does not exist!";
-        }
-
-        // prevent uploading existing user data on favoritedBy field
-        const data = { ...curDoc.data().favoritedBy };
-        if (!data[curUsername]) {
-          data[curUsername] = curUid;
-          transaction.update(curCollRef, { favoritedBy: data });
-          console.log(
-            `${curUsername} added ${currentQuestion.id} to their favorite list`
-          );
-
-          // show some sign to user when they succeeded add currentQuestion.id to their favorite list
-        } else {
-          console.log(`You set ${currentQuestion.id} as favorite already`);
-
-          // show some sign to user when they already added currentQuestion.id to their favorite
-        }
+      await setDoc(doc(db, "people", `${auth.currentUser.uid}`), {
+        name: auth.currentUser.displayName,
+        favoriteQuestion: [],
       });
-    } catch (err) {
-      console.error("Transaction failed: ", err);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -120,11 +98,7 @@ export default function GeneralPlayground({ questionList }) {
           </div>
         ))}
       </div>
-      <PlaygroundButton
-        swipe={swipe}
-        goBack={goBack}
-        setFavorite={setFavorite}
-      />
+      <DeckButton swipe={swipe} goBack={goBack} setFavorite={setFavorite} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import SwipeLeftRoundedIcon from "@mui/icons-material/SwipeLeftRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 
-export default function PlaygroundButton({ swipe, goBack, setFavorite }) {
+export default function DeckButton({ swipe, goBack, setFavorite }) {
   return (
     <div className="button-area">
       <ButtonGroup className="playground-button-group">
