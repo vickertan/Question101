@@ -95,13 +95,13 @@ const QuestionForm = forwardRef((props, ref) => {
   }));
 
   const submitQuestion = async () => {
-    const question = questionInputRef.current.getUserQuestion();
-
     try {
-      await setDoc(doc(db, "questions", question), {
-        category: categoryInputRef.current.getUserCategory(),
-        favoritedBy: {},
-      });
+      await setDoc(
+        doc(db, "questions", `${questionInputRef.current.getUserQuestion()}`),
+        {
+          category: categoryInputRef.current.getUserCategory(),
+        }
+      );
       console.log("Data submitted");
     } catch (err) {
       console.error(err);
