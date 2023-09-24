@@ -5,19 +5,54 @@ import HomePage from "./HomePage";
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, onSnapshot, doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  setDoc,
+  getDoc,
+} from "firebase/firestore";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import QuestionCollContext from "./QuestionCollContext";
 
 function App() {
   console.log("Render app");
 
-  const [_, setUser] = useState(null);
+  const [user, setUser] = useState({
+    name: "",
+    uid: "",
+  });
+  const [questionList, setQuestionList] = useState([]);
 
   const questionCollRef = collection(db, "questions");
-  const peopleCollRef = collection(db, "people");
 
-  const [questionList, setQuestionList] = useState([]);
+  // Upload new user's data or load existing user's data
+  useEffect(() => {
+    const uploadUserData = async () => {
+      try {
+        await setDoc(doc(db, "people", user.uid), {
+          username: user.name,
+          id: user.uid,
+        });
+        console.log(`${user.name}'s data uploaded!`);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    const getUserData = async () => {
+      const userData = await getDoc(
+        doc(db, "people", user.uid ? user.uid : "anonymous")
+      );
+      if (userData.exists()) {
+        console.log(userData.data());
+      } else if (user.name && user.uid) {
+        uploadUserData();
+      }
+    };
+
+    getUserData();
+  }, [user]);
 
   // Fetch data from firestore
   useEffect(() => {
@@ -43,21 +78,15 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (u) => {
       if (u) {
-        const uploadUserData = async () => {
-          try {
-            await setDoc(doc(db, "people", u.uid), {
-              name: u.displayName,
-            });
-            console.log(`${u.displayName}'s data uploaded`);
-          } catch (e) {
-            console.error(e);
-          }
-        };
-
-        setUser(u);
-        // uploadUserData if there is no data of the user in database, this is to prevent resetting user's data every login;
+        setUser({
+          name: u.displayName,
+          uid: u.uid,
+        });
       } else {
-        setUser(null);
+        setUser({
+          name: null,
+          uid: null,
+        });
       }
     });
   }, []);
