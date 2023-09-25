@@ -100,7 +100,7 @@ function App() {
         <Routes>
           <Route
             path="/playground"
-            element={<Deck questionList={questionList} />}
+            element={<Deck questionList={questionList} user={user} />}
           />
           <Route path="/" element={<HomePage />} />
         </Routes>
