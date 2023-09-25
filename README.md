@@ -1,6 +1,6 @@
 # To Do List
 
-- [x] Update user's favoriteQuestion list in firestore on setFavorite function run
+- [x] Create function to prevent duplicating user's favorite question's data in firestore
 
 - [x] Show modal to provide topic selection for user to play when user click on "Topic" button menu
 
