@@ -1,10 +1,12 @@
 import { useEffect, useState, useMemo, useRef, createRef } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db, auth } from "../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import TinderCard from "react-tinder-card";
 import DeckButton from "./DeckButton";
 
-export default function Deck({ questionList }) {
+export default function Deck({ questionList, user }) {
+  const userRef = doc(db, "people", user.uid);
+
   const [currentIndex, setCurrentIndex] = useState(questionList.length - 1);
 
   // keep currentQuestion state to access current question's data in firestore
@@ -71,14 +73,21 @@ export default function Deck({ questionList }) {
 
   // logic to set favorite for question
   const setFavorite = async () => {
-    try {
-      await setDoc(doc(db, "people", `${auth.currentUser.uid}`), {
-        name: auth.currentUser.displayName,
-        favoriteQuestion: [],
-      });
-    } catch (e) {
-      console.error(e);
-    }
+    const docSnap = await getDoc(userRef);
+    const userFavorite = docSnap.data().favoriteQuestion || [];
+
+    // add function to prevent user from adding existing question to their favorite list
+
+    // try {
+    //   await updateDoc(userRef, {
+    //     favoriteQuestion: [...userFavorite, currentQuestion.id],
+    //   });
+    //   console.log(
+    //     `${user.name} added ${currentQuestion.id} to his/her favorite list`
+    //   );
+    // } catch (e) {
+    //   console.error(e);
+    // }
   };
 
   return (
