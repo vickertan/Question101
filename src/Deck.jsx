@@ -5,7 +5,7 @@ import TinderCard from "react-tinder-card";
 import DeckButton from "./DeckButton";
 
 export default function Deck({ questionList, user }) {
-  const userRef = doc(db, "people", user.uid);
+  const userRef = doc(db, "people", user.uid || "anonymous");
 
   const [currentIndex, setCurrentIndex] = useState(questionList.length - 1);
 
@@ -72,22 +72,36 @@ export default function Deck({ questionList, user }) {
   };
 
   // logic to set favorite for question
-  const setFavorite = async () => {
+  const handleFavorite = async () => {
     const docSnap = await getDoc(userRef);
     const userFavorite = docSnap.data().favoriteQuestion || [];
 
-    // add function to prevent user from adding existing question to their favorite list
-
-    // try {
-    //   await updateDoc(userRef, {
-    //     favoriteQuestion: [...userFavorite, currentQuestion.id],
-    //   });
-    //   console.log(
-    //     `${user.name} added ${currentQuestion.id} to his/her favorite list`
-    //   );
-    // } catch (e) {
-    //   console.error(e);
-    // }
+    // remove currentQuestion.id from Firestore if it is currently exist
+    if (userFavorite.includes(currentQuestion.id)) {
+      userFavorite.splice(userFavorite.indexOf(currentQuestion.id), 1);
+      try {
+        await updateDoc(userRef, {
+          favoriteQuestion: userFavorite,
+        });
+        console.log(
+          `${currentQuestion.id} removed from ${user.name}'s favorite list`
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      // add currentQuestion.id to Firestore if is not currently exist
+      try {
+        await updateDoc(userRef, {
+          favoriteQuestion: [...userFavorite, currentQuestion.id],
+        });
+        console.log(
+          `${currentQuestion.id} added to ${user.name}'s favorite list`
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    }
   };
 
   return (
@@ -107,7 +121,11 @@ export default function Deck({ questionList, user }) {
           </div>
         ))}
       </div>
-      <DeckButton swipe={swipe} goBack={goBack} setFavorite={setFavorite} />
+      <DeckButton
+        swipe={swipe}
+        goBack={goBack}
+        handleFavorite={handleFavorite}
+      />
     </div>
   );
 }
