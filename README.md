@@ -6,7 +6,7 @@
 
   - [x] playground page error when refreshing
     - [x] Deck component: invalid document reference (currently using logical OR operator to return 'anonymous' as default when user.uid is falsy)
-    - [x] DeckButton component: not functioning properly
+    - [x] DeckButton component: not functioning properly (temporary solution: create default value just like in Deck component)
   - [x] Fix "Yes" border not rendering properly (CreateWindow > ExitConfirm component)
 
 - [x] Show love icon on card when current user has it in his/her favorite list
