@@ -17,5 +17,3 @@
 
   - [x] when reading questions
   - [x] when reading user auth's state to display icon button
-
-- [x] Create component's style on separated file
