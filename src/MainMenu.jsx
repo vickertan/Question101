@@ -2,12 +2,18 @@ import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import CreateWindow from "./CreateWindow";
+import TopicWindow from "./TopicWindow";
 
 export default function MainMenu() {
-  const modalRef = useRef(null);
+  const createRef = useRef(null);
+  const topicRef = useRef(null);
 
-  const handleOpen = () => {
-    modalRef.current.handleOpen();
+  const openCreateWindow = () => {
+    createRef.current.openCreateWindow();
+  };
+
+  const openTopicWindow = () => {
+    topicRef.current.openTopicWindow();
   };
 
   return (
@@ -29,13 +35,13 @@ export default function MainMenu() {
             Card Icon here
           </Button>
         </Link>
-        <Button>Topic</Button>
+        <Button onClick={openTopicWindow}>Topic</Button>
         <Button>Favorite</Button>
-
         {/* Only show Create menu selection for verified user */}
-        <Button onClick={handleOpen}>Create</Button>
+        <Button onClick={openCreateWindow}>Create</Button>
       </ButtonGroup>
-      <CreateWindow ref={modalRef} />
+      <CreateWindow ref={createRef} />
+      <TopicWindow ref={topicRef} />
     </Box>
   );
 }

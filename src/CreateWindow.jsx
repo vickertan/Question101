@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import ExitConfirm from "./ExitConfirm";
 import QuestionForm from "./QuestionForm";
-import { modalBoxStyle, buttonStyle } from "./componentStyle";
+import { modalBoxStyle } from "./componentStyle";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
 export default forwardRef(function CreateWindow(props, ref) {
@@ -14,7 +14,7 @@ export default forwardRef(function CreateWindow(props, ref) {
   const handleClose = () => setOpen(false);
 
   useImperativeHandle(ref, () => ({
-    handleOpen: () => {
+    openCreateWindow: () => {
       setOpen(true);
     },
   }));
