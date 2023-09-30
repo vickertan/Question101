@@ -2,6 +2,8 @@
 
 - [x] Show modal to provide topic selection for user to play when user click on "Topic" button menu
 
+- [x] Create more robust and avoid repetition code between Topic and Create window component
+
 - [x] Fix bug:
 
   - [x] playground page error when refreshing
