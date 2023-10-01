@@ -1,19 +1,29 @@
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
-import CreateWindow from "./CreateWindow";
-import TopicWindow from "./TopicWindow";
+import ModalTemplate from "./ModalTemplate";
+import QuestionForm from "./QuestionForm";
 
 export default function MainMenu() {
-  const createRef = useRef(null);
-  const topicRef = useRef(null);
+  const modalRef = useRef(null);
 
-  const openCreateWindow = () => {
-    createRef.current.openCreateWindow();
+  const openModalTemplate = () => {
+    modalRef.current.openModalTemplate();
   };
 
-  const openTopicWindow = () => {
-    topicRef.current.openTopicWindow();
+  // Ref to access QuestionForm's child's state
+  const questionFormRef = useRef(null);
+
+  // return if user has input, or return false if user has no input
+  const checkQuestionFormInput = () => {
+    if (
+      questionFormRef.current.getUserCategory() ||
+      questionFormRef.current.getUserQuestion()
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -35,13 +45,14 @@ export default function MainMenu() {
             Card Icon here
           </Button>
         </Link>
-        <Button onClick={openTopicWindow}>Topic</Button>
+        <Button>Topic</Button>
         <Button>Favorite</Button>
         {/* Only show Create menu selection for verified user */}
-        <Button onClick={openCreateWindow}>Create</Button>
+        <Button onClick={openModalTemplate}>Create</Button>
       </ButtonGroup>
-      <CreateWindow ref={createRef} />
-      <TopicWindow ref={topicRef} />
+      <ModalTemplate ref={modalRef} checkInput={checkQuestionFormInput}>
+        <QuestionForm ref={questionFormRef} />
+      </ModalTemplate>
     </Box>
   );
 }
