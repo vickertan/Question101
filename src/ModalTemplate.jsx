@@ -6,15 +6,18 @@ import ExitConfirm from "./ExitConfirm";
 import { modalBoxStyle } from "./componentStyle";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
-export default forwardRef(function CreateWindow(props, ref) {
-  // State to render TopicWindow
-  const [open, setOpen] = useState(false);
+export default forwardRef(function ModalTemplate(
+  { children, checkInput },
+  ref
+) {
+  // State to render ModalTemplate
+  const [modalTemplate, setModalTemplate] = useState(false);
 
-  const handleClose = () => setOpen(false);
+  const closeModalTemplate = () => setModalTemplate(false);
 
   useImperativeHandle(ref, () => ({
-    openTopicWindow: () => {
-      setOpen(true);
+    openModalTemplate: () => {
+      setModalTemplate(true);
     },
   }));
 
@@ -26,8 +29,14 @@ export default forwardRef(function CreateWindow(props, ref) {
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
+        open={modalTemplate}
+        onClose={() => {
+          if (checkInput()) {
+            exitConfirmRef.current.openExitConfirm();
+          } else {
+            closeModalTemplate();
+          }
+        }}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -36,9 +45,13 @@ export default forwardRef(function CreateWindow(props, ref) {
           },
         }}
       >
-        <Fade in={open}>
+        <Fade in={modalTemplate}>
           <Box sx={modalBoxStyle}>
-            <ExitConfirm ref={exitConfirmRef} handleClose={handleClose} />
+            {children}
+            <ExitConfirm
+              ref={exitConfirmRef}
+              closeModalTemplate={closeModalTemplate}
+            />
           </Box>
         </Fade>
       </Modal>
