@@ -7,13 +7,16 @@ import { modalBoxStyle } from "./componentStyle";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
 export default forwardRef(function ModalTemplate(
-  { children, checkInput },
+  { children, checkInput, setMenuSelection },
   ref
 ) {
   // State to render ModalTemplate
   const [modalTemplate, setModalTemplate] = useState(false);
 
-  const closeModalTemplate = () => setModalTemplate(false);
+  const closeModalTemplate = () => {
+    setModalTemplate(false);
+    setMenuSelection("");
+  };
 
   useImperativeHandle(ref, () => ({
     openModalTemplate: () => {
