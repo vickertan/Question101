@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import ModalTemplate from "./ModalTemplate";
 import QuestionForm from "./QuestionForm";
 
 export default function MainMenu() {
+  const [menuSelection, setMenuSelection] = useState("");
+
   const modalRef = useRef(null);
 
   const openModalTemplate = () => {
@@ -13,9 +15,10 @@ export default function MainMenu() {
 
   // Ref to access QuestionForm's child's state
   const questionFormRef = useRef(null);
+  const topicFormRef = useRef(null);
 
-  // return if user has input, or return false if user has no input
-  const checkQuestionFormInput = () => {
+  // return true if user has input, or return false if user has no input
+  const checkInput = () => {
     if (
       questionFormRef.current.getUserCategory() ||
       questionFormRef.current.getUserQuestion()
@@ -25,6 +28,12 @@ export default function MainMenu() {
       return false;
     }
   };
+
+  useEffect(() => {
+    if (menuSelection == "create") {
+      openModalTemplate();
+    }
+  }, [menuSelection]);
 
   return (
     <Box
@@ -45,13 +54,21 @@ export default function MainMenu() {
             Card Icon here
           </Button>
         </Link>
-        <Button>Topic</Button>
+        <Button onClick={() => setMenuSelection("topic")}>Topic</Button>
         <Button>Favorite</Button>
         {/* Only show Create menu selection for verified user */}
-        <Button onClick={openModalTemplate}>Create</Button>
+        <Button onClick={() => setMenuSelection("create")}>Create</Button>
       </ButtonGroup>
-      <ModalTemplate ref={modalRef} checkInput={checkQuestionFormInput}>
-        <QuestionForm ref={questionFormRef} />
+      <ModalTemplate
+        ref={modalRef}
+        checkInput={checkInput}
+        setMenuSelection={setMenuSelection}
+      >
+        {menuSelection == "create" ? (
+          <QuestionForm ref={questionFormRef} />
+        ) : menuSelection == "topic" ? (
+          console.log("render topic form")
+        ) : null}
       </ModalTemplate>
     </Box>
   );
