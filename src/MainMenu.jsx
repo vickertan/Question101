@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import ModalTemplate from "./ModalTemplate";
 import QuestionForm from "./QuestionForm";
+import TopicForm from "./TopicForm";
 
 export default function MainMenu() {
   const [menuSelection, setMenuSelection] = useState("");
@@ -18,7 +19,7 @@ export default function MainMenu() {
   const topicFormRef = useRef(null);
 
   // return true if user has input, or return false if user has no input
-  const checkInput = () => {
+  const checkQuestionForm = () => {
     if (
       questionFormRef.current.getUserCategory() ||
       questionFormRef.current.getUserQuestion()
@@ -29,8 +30,10 @@ export default function MainMenu() {
     }
   };
 
+  const checkTopicForm = () => {};
+
   useEffect(() => {
-    if (menuSelection == "create") {
+    if (menuSelection) {
       openModalTemplate();
     }
   }, [menuSelection]);
@@ -59,16 +62,21 @@ export default function MainMenu() {
         {/* Only show Create menu selection for verified user */}
         <Button onClick={() => setMenuSelection("create")}>Create</Button>
       </ButtonGroup>
+
       <ModalTemplate
-        ref={modalRef}
-        checkInput={checkInput}
+        ref={menuSelection == "create" ? modalRef : null}
+        checkInput={checkQuestionForm}
         setMenuSelection={setMenuSelection}
       >
-        {menuSelection == "create" ? (
-          <QuestionForm ref={questionFormRef} />
-        ) : menuSelection == "topic" ? (
-          console.log("render topic form")
-        ) : null}
+        <QuestionForm ref={questionFormRef} />
+      </ModalTemplate>
+
+      <ModalTemplate
+        ref={menuSelection == "topic" ? modalRef : null}
+        checkInput={checkTopicForm}
+        setMenuSelection={setMenuSelection}
+      >
+        <TopicForm ref={topicFormRef} />
       </ModalTemplate>
     </Box>
   );
