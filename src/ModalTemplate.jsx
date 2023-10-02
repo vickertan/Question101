@@ -7,7 +7,7 @@ import { modalBoxStyle } from "./componentStyle";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 
 export default forwardRef(function ModalTemplate(
-  { children, checkInput, setMenuSelection },
+  { children, hasUserInput, setMenuSelection },
   ref
 ) {
   // State to render ModalTemplate
@@ -34,7 +34,7 @@ export default forwardRef(function ModalTemplate(
         aria-describedby="transition-modal-description"
         open={modalTemplate}
         onClose={() => {
-          if (checkInput()) {
+          if (hasUserInput()) {
             exitConfirmRef.current.openExitConfirm();
           } else {
             closeModalTemplate();

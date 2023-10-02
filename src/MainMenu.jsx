@@ -30,7 +30,9 @@ export default function MainMenu() {
     }
   };
 
-  const checkTopicForm = () => {};
+  const checkTopicForm = () => {
+    return true;
+  };
 
   useEffect(() => {
     if (menuSelection) {
@@ -65,7 +67,7 @@ export default function MainMenu() {
 
       <ModalTemplate
         ref={menuSelection == "create" ? modalRef : null}
-        checkInput={checkQuestionForm}
+        hasUserInput={checkQuestionForm}
         setMenuSelection={setMenuSelection}
       >
         <QuestionForm ref={questionFormRef} />
@@ -73,7 +75,7 @@ export default function MainMenu() {
 
       <ModalTemplate
         ref={menuSelection == "topic" ? modalRef : null}
-        checkInput={checkTopicForm}
+        hasUserInput={checkTopicForm}
         setMenuSelection={setMenuSelection}
       >
         <TopicForm ref={topicFormRef} />
