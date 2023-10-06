@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup, Box } from "@mui/material";
 import ModalTemplate from "./ModalTemplate";
 import QuestionForm from "./QuestionForm";
-import TopicForm from "./TopicForm";
+// import TopicForm from "./TopicForm";
 
 export default function MainMenu() {
   const [menuSelection, setMenuSelection] = useState("");
@@ -16,7 +16,6 @@ export default function MainMenu() {
 
   // Ref to access QuestionForm's child's state
   const questionFormRef = useRef(null);
-  const topicFormRef = useRef(null);
 
   // return true if user has input, or return false if user has no input
   const checkQuestionForm = () => {
@@ -59,8 +58,8 @@ export default function MainMenu() {
             Card Icon here
           </Button>
         </Link>
-        <Button onClick={() => setMenuSelection("topic")}>Topic</Button>
-        <Button>Favorite</Button>
+        <Button onClick={() => setMenuSelection("comingSoon")}>Topic</Button>
+        <Button onClick={() => setMenuSelection("comingSoon")}>Favorite</Button>
         {/* Only show Create menu selection for verified user */}
         <Button onClick={() => setMenuSelection("create")}>Create</Button>
       </ButtonGroup>
@@ -73,12 +72,22 @@ export default function MainMenu() {
         <QuestionForm ref={questionFormRef} />
       </ModalTemplate>
 
-      <ModalTemplate
+      {/* <ModalTemplate
         ref={menuSelection == "topic" ? modalRef : null}
         hasUserInput={checkTopicForm}
         setMenuSelection={setMenuSelection}
       >
         <TopicForm ref={topicFormRef} />
+      </ModalTemplate> */}
+
+      <ModalTemplate
+        ref={menuSelection == "comingSoon" ? modalRef : null}
+        hasUserInput={() => {
+          return false;
+        }}
+        setMenuSelection={setMenuSelection}
+      >
+        <h1 style={{ textAlign: "center" }}>Coming Soon</h1>
       </ModalTemplate>
     </Box>
   );
