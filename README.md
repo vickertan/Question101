@@ -1,8 +1,8 @@
 # To Do List
 
-- [x] Show modal to provide topic selection for user to play when user click on "Topic" button menu
+- [x] Show love icon on card when current user has it in his/her favorite list
 
-- [x] Create more robust and avoid repetition code between Topic and Create window component
+- [x] Show modal to provide topic selection for user to play when user click on "Topic" button menu
 
 - [x] Fix bug:
 
@@ -10,8 +10,6 @@
     - [x] Deck component: invalid document reference (currently using logical OR operator to return 'anonymous' as default when user.uid is falsy)
     - [x] DeckButton component: not functioning properly (temporary solution: create default value just like in Deck component)
   - [x] Fix "Yes" border not rendering properly (CreateWindow > ExitConfirm component)
-
-- [x] Show love icon on card when current user has it in his/her favorite list
 
 - [x] Only verified user are allowed to upload questions
 
