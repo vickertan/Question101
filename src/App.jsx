@@ -102,7 +102,7 @@ function App() {
             path="/playground"
             element={<Deck questionList={questionList} user={user} />}
           />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage user={user} />} />
         </Routes>
       </QuestionCollContext.Provider>
     </BrowserRouter>
