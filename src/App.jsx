@@ -20,6 +20,7 @@ function App() {
 
   const [user, setUser] = useState({
     name: "",
+    email: "",
     uid: "",
   });
   const [questionList, setQuestionList] = useState([]);
@@ -30,9 +31,9 @@ function App() {
   useEffect(() => {
     const uploadUserData = async () => {
       try {
-        await setDoc(doc(db, "people", user.uid), {
-          username: user.name,
-          id: user.uid,
+        await setDoc(doc(db, "people", user.email), {
+          name: user.name,
+          uid: user.uid,
         });
         console.log(`${user.name}'s data uploaded!`);
       } catch (e) {
@@ -42,11 +43,11 @@ function App() {
 
     const getUserData = async () => {
       const userData = await getDoc(
-        doc(db, "people", user.uid ? user.uid : "anonymous")
+        doc(db, "people", user.email ? user.email : "anonymous")
       );
       if (userData.exists()) {
         console.log(userData.data());
-      } else if (user.name && user.uid) {
+      } else if (user.email && user.uid) {
         uploadUserData();
       }
     };
@@ -80,11 +81,13 @@ function App() {
       if (u) {
         setUser({
           name: u.displayName,
+          email: u.email,
           uid: u.uid,
         });
       } else {
         setUser({
           name: null,
+          email: null,
           uid: null,
         });
       }
