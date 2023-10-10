@@ -62,7 +62,7 @@ export default function MainMenu({ user }) {
         <Button onClick={() => setMenuSelection("comingSoon")}>Topic</Button>
         <Button onClick={() => setMenuSelection("comingSoon")}>Favorite</Button>
         {/* Only show Create menu selection for verified user */}
-        {user.uid == "verified user" ? (
+        {user.uid == "OksZAvSiLtS0AfyzpTxzk8vhyx52" ? (
           <Button onClick={() => setMenuSelection("create")}>Create</Button>
         ) : null}
       </ButtonGroup>
