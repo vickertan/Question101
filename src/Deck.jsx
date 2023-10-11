@@ -7,12 +7,16 @@ import DeckButton from "./DeckButton";
 export default function Deck({ questionList, user }) {
   const userRef = doc(db, "people", user.uid || "anonymous");
 
-  const [currentIndex, setCurrentIndex] = useState(questionList.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   // keep currentQuestion state to access current question's data in firestore
   const [currentQuestion, setCurrentQuestion] = useState(
     questionList[currentIndex]
   );
+
+  useEffect(() => {
+    setCurrentIndex(questionList.length - 1);
+  }, [questionList]);
 
   useEffect(() => {
     setCurrentQuestion(questionList[currentIndex]);
@@ -26,8 +30,10 @@ export default function Deck({ questionList, user }) {
       Array(questionList.length)
         .fill(0)
         .map((i) => createRef()),
-    []
+    [questionList]
   );
+
+  console.log(childRefs);
 
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
@@ -73,35 +79,37 @@ export default function Deck({ questionList, user }) {
 
   // logic to set favorite for question
   const handleFavorite = async () => {
-    const docSnap = await getDoc(userRef);
-    const userFavorite = docSnap.data().favoriteQuestion || [];
+    console.log("Feature coming soon");
 
-    // remove currentQuestion.id from Firestore if it is currently exist
-    if (userFavorite.includes(currentQuestion.id)) {
-      userFavorite.splice(userFavorite.indexOf(currentQuestion.id), 1);
-      try {
-        await updateDoc(userRef, {
-          favoriteQuestion: userFavorite,
-        });
-        console.log(
-          `${currentQuestion.id} removed from ${user.name}'s favorite list`
-        );
-      } catch (e) {
-        console.error(e);
-      }
-    } else {
-      // add currentQuestion.id to Firestore if is not currently exist
-      try {
-        await updateDoc(userRef, {
-          favoriteQuestion: [...userFavorite, currentQuestion.id],
-        });
-        console.log(
-          `${currentQuestion.id} added to ${user.name}'s favorite list`
-        );
-      } catch (e) {
-        console.error(e);
-      }
-    }
+    // const docSnap = await getDoc(userRef);
+    // const userFavorite = docSnap.data().favoriteQuestion || [];
+
+    // // remove currentQuestion.id from Firestore if it is currently exist
+    // if (userFavorite.includes(currentQuestion.id)) {
+    //   userFavorite.splice(userFavorite.indexOf(currentQuestion.id), 1);
+    //   try {
+    //     await updateDoc(userRef, {
+    //       favoriteQuestion: userFavorite,
+    //     });
+    //     console.log(
+    //       `${currentQuestion.id} removed from ${user.name}'s favorite list`
+    //     );
+    //   } catch (e) {
+    //     console.error(e);
+    //   }
+    // } else {
+    //   // add currentQuestion.id to Firestore if is not currently exist
+    //   try {
+    //     await updateDoc(userRef, {
+    //       favoriteQuestion: [...userFavorite, currentQuestion.id],
+    //     });
+    //     console.log(
+    //       `${currentQuestion.id} added to ${user.name}'s favorite list`
+    //     );
+    //   } catch (e) {
+    //     console.error(e);
+    //   }
+    // }
   };
 
   return (
