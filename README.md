@@ -1,17 +1,20 @@
 # To Do List
 
-- [x] Only verified user are allowed to upload questions
+- [x] Must do before publish :
+
+  - [x] User can only swipe the card that is on the top of the stack
+
+  - [x] Always save the progress of swiped card, so deck won't be restarted when user refreshed the page
+
+  - [x] Always ask confirm before exiting deck
+
+- [x] Fix bug:
+
+  - [x] Fix "Yes" border not rendering properly (CreateWindow > ExitConfirm component)
 
 - [x] Show modal to provide topic selection for user to play when user click on "Topic" button menu
 
 - [x] Show love icon on card when current user has it in his/her favorite list
-
-- [x] Fix bug:
-
-  - [x] playground page error when refreshing
-    - [x] Deck component: invalid document reference (currently using logical OR operator to return 'anonymous' as default when user.uid is falsy)
-    - [x] DeckButton component: not functioning properly (temporary solution: create default value just like in Deck component)
-  - [x] Fix "Yes" border not rendering properly (CreateWindow > ExitConfirm component)
 
 - [x] Create loading animation when reading data from Firestore
 
