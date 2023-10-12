@@ -13,7 +13,6 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import QuestionCollContext from "./QuestionCollContext";
 
 function App() {
   console.log("Render app");
@@ -96,18 +95,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      <QuestionCollContext.Provider value={questionCollRef}>
-        <header>
-          <AppBar />
-        </header>
-        <Routes>
-          <Route
-            path="/playground"
-            element={<Deck questionList={questionList} user={user} />}
-          />
-          <Route path="/" element={<HomePage user={user} />} />
-        </Routes>
-      </QuestionCollContext.Provider>
+      <header>
+        <AppBar />
+      </header>
+      <Routes>
+        <Route
+          path="/playground"
+          element={<Deck questionList={questionList} user={user} />}
+        />
+        <Route path="/" element={<HomePage user={user} />} />
+      </Routes>
     </BrowserRouter>
   );
 }
