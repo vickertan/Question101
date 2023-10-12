@@ -91,10 +91,9 @@ export default function AppBar() {
         <Button onClick={signInWithGoogle}>Log In</Button>
       )}
 
-      <ExitConfirm
-        ref={exitConfirmRef}
-        handleYesConfirm={() => navigate("/")}
-      />
+      <ExitConfirm ref={exitConfirmRef} handleYesConfirm={() => navigate("/")}>
+        Cards list will reset after exiting. Are you sure to exit?
+      </ExitConfirm>
     </Box>
   );
 }

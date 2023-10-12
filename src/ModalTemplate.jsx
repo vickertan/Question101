@@ -54,7 +54,9 @@ export default forwardRef(function ModalTemplate(
             <ExitConfirm
               ref={exitConfirmRef}
               handleYesConfirm={closeModalTemplate}
-            />
+            >
+              Unsaved data will be lost. Are you sure to exit?
+            </ExitConfirm>
           </Box>
         </Fade>
       </Modal>

@@ -2,7 +2,10 @@ import { useState, useImperativeHandle, forwardRef } from "react";
 import { Modal, Fade, Box, ButtonGroup, Button } from "@mui/material";
 import { modalBoxStyle, buttonStyle } from "./componentStyle";
 
-const ExitConfirm = forwardRef(function ExitConfirm({ handleYesConfirm }, ref) {
+const ExitConfirm = forwardRef(function ExitConfirm(
+  { handleYesConfirm, children },
+  ref
+) {
   const [exitConfirm, setExitConfirm] = useState(false);
 
   const closeExitConfirm = () => setExitConfirm(false);
@@ -17,7 +20,7 @@ const ExitConfirm = forwardRef(function ExitConfirm({ handleYesConfirm }, ref) {
     <Modal open={exitConfirm}>
       <Fade in={exitConfirm}>
         <Box sx={{ ...modalBoxStyle, width: 200 }}>
-          <p>Unsaved data will be lost. Are you sure to exit?</p>
+          <p>{children}</p>
           <ButtonGroup
             sx={{
               display: "flex",

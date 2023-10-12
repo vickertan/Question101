@@ -33,8 +33,6 @@ export default function Deck({ questionList, user }) {
     [questionList]
   );
 
-  console.log(childRefs);
-
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
     currentIndexRef.current = val;

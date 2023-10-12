@@ -6,6 +6,8 @@
 
   - [x] Always save the progress of swiped card, so deck won't be restarted when user refreshed the page
 
+  - [x] Show ExitConfirm modal by reading "back" action from browser or mobile device rather than listening to button click only
+
 - [x] Fix bug:
 
   - [x] Fix "Yes" border not rendering properly (CreateWindow > ExitConfirm component)
