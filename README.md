@@ -6,8 +6,6 @@
 
   - [x] Always save the progress of swiped card, so deck won't be restarted when user refreshed the page
 
-  - [x] Always ask confirm before exiting deck
-
 - [x] Fix bug:
 
   - [x] Fix "Yes" border not rendering properly (CreateWindow > ExitConfirm component)

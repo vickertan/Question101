@@ -53,7 +53,7 @@ export default forwardRef(function ModalTemplate(
             {children}
             <ExitConfirm
               ref={exitConfirmRef}
-              closeModalTemplate={closeModalTemplate}
+              handleYesConfirm={closeModalTemplate}
             />
           </Box>
         </Fade>

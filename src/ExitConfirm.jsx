@@ -2,10 +2,7 @@ import { useState, useImperativeHandle, forwardRef } from "react";
 import { Modal, Fade, Box, ButtonGroup, Button } from "@mui/material";
 import { modalBoxStyle, buttonStyle } from "./componentStyle";
 
-const ExitConfirm = forwardRef(function ExitConfirm(
-  { closeModalTemplate },
-  ref
-) {
+const ExitConfirm = forwardRef(function ExitConfirm({ handleYesConfirm }, ref) {
   const [exitConfirm, setExitConfirm] = useState(false);
 
   const closeExitConfirm = () => setExitConfirm(false);
@@ -31,7 +28,7 @@ const ExitConfirm = forwardRef(function ExitConfirm(
               sx={buttonStyle}
               color="warning"
               onClick={() => {
-                closeModalTemplate();
+                handleYesConfirm();
                 closeExitConfirm();
               }}
             >

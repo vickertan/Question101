@@ -2,8 +2,9 @@ import { Box, Button, IconButton, Menu, MenuItem, Avatar } from "@mui/material";
 import StyleRoundedIcon from "@mui/icons-material/StyleRounded";
 import { auth, googleProvider } from "../firebase";
 import { signInWithRedirect } from "firebase/auth";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import ExitConfirm from "./ExitConfirm";
 
 function UserIcon() {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -50,6 +51,9 @@ function UserIcon() {
 
 export default function AppBar() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const exitConfirmRef = useRef(null);
 
   const signInWithGoogle = async () => {
     try {
@@ -71,7 +75,9 @@ export default function AppBar() {
       <IconButton
         size="large"
         onClick={() => {
-          navigate("/");
+          if (location.pathname == "/playground") {
+            exitConfirmRef.current.openExitConfirm();
+          }
         }}
       >
         <StyleRoundedIcon
@@ -84,6 +90,11 @@ export default function AppBar() {
       ) : (
         <Button onClick={signInWithGoogle}>Log In</Button>
       )}
+
+      <ExitConfirm
+        ref={exitConfirmRef}
+        handleYesConfirm={() => navigate("/")}
+      />
     </Box>
   );
 }
